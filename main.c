@@ -1,40 +1,57 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
-
-int perfect (int n)
+void crossOut (char *T, int number, int limit)
 {
-    int sum = 0;
-    do{
-    for (int i =1; i < n; i++)
-        {
-           if (n%i == 0)
-            sum= sum + i;
-        }
-          if (sum == n)
-            {
-              printf("The perfect number is: %d\n",n);
-              return 1;
-            }
-          if (sum!=n)
-          {
-              return 0;
-          }
-            }while (1);
+    int j;
+    for (j = 2; j < limit ; j++)
+       {
+           int i = j * number;
+           T [i] = 1;
+       }
 
 }
+void sieve (char *T[], int limit)
+{
+   int i;
+   for (i = 0; i<limit; i++)
+   {
+       *T [i] = 0;
+   }
+   *T[0] = 1; *T[1] = 1;
+   for (i = 2; i <= sqrt(limit); i++)
+   {
+           crossOut(T, i, limit);
+       }
+
+}
+
 int main ()
 {
-    int n, result, per;
-    printf("\n Plese enter any integer \n");
-    scanf("%d", &n);
-    result = perfect(n);
-        int j;
-        for (int j =1; j <= n; j++)
-        per= perfect(j);
-        if (per== j)
-            printf("%d", j);
+   char *ptr;
+   int limit, count;
+   int sum = 0;
+   printf("please enter a limit to find prime numbers:\n");
+   scanf("%d", &limit);
+   int i = limit;
+   while ((getchar())!='\n');
+   ptr = (char*)malloc(i * sizeof(int));
+   sieve(ptr, limit);
+   printf("\n");
+   for (count = 0; count < limit; count++)
+   {
+       if (ptr[count] == 0)
+       {
+           sum = sum + 1;
+           printf("%d\t",count);
+           printf("\n%d", sum);
+       }
+   }
 
+   printf("\n");
 
-    return 0;
+   free(ptr);
+
+   return 0;
 }
